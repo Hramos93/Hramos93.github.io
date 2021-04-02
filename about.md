@@ -13,7 +13,7 @@ I am Humberto from Venezuela, I degree Telecommunications engineer, and I am cur
 <div class="row">
   <div class="col">
   <ul style="list-style-type:none;">
-  <li > Python <img src="img\about\python.webp"  alt="Python" width="25" height="25">  </li>
+  <li style="font-size:15px;"> Python <img src="img\about\python.webp"  alt="Python" width="25" height="25">  </li>
   <li > R  <img src="img\about\R.webp"  alt="R" width="25" height="25"></li>
   <li> SQL  <img src="img\about\SQL.webp"  alt="SQL" width="25" height="25"></li>
   <li> SAS  <img src="img\about\SAS.png"  alt="SAS" width="25" height="25"></li>
