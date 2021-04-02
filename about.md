@@ -14,12 +14,12 @@ I am Humberto from Venezuela, I degree Telecommunications engineer, and I am cur
   <div class="col">
   <ul style="list-style-type:none;">
   <li style="font-size:15px;"> Python <img src="img\about\python.webp"  alt="Python" width="25" height="25">  </li>
-  <li > R  <img src="img\about\R.webp"  alt="R" width="25" height="25"></li>
-  <li> SQL  <img src="img\about\SQL.webp"  alt="SQL" width="25" height="25"></li>
-  <li> SAS  <img src="img\about\SAS.png"  alt="SAS" width="25" height="25"></li>
+  <li  style="font-size:15px;"> R  <img src="img\about\R.webp"  alt="R" width="25" height="25"></li>
+  <li style="font-size:15px;"> SQL  <img src="img\about\SQL.webp"  alt="SQL" width="25" height="25"></li>
+  <li style="font-size:15px;"> SAS  <img src="img\about\SAS.png"  alt="SAS" width="25" height="25"></li>
   </ul></div>
-  <div class="col"><ul style="list-style-type:none;">
-  <li> Matplotlib<img src="img\about\matplotlib.png"  alt="Matplotlib" width="20" height="20"> </li>
+  <div class="col"><ul style="list-style-type:none font-size:15px;">
+  <li > Matplotlib<img src="img\about\matplotlib.png"  alt="Matplotlib" width="20" height="20"> </li>
   <li> Seaborn <img src="img\about\seaborn.png"  alt="Sns" width="25" height="25"> </li>
   <li> ggplot <img src="img\about\ggplot.jpg"  alt="ggplot" width="25" height="25"> </li>
   <li> PowerBI <img src="img\about\powerbi.png"  alt="Powerbi" width="25" height="25"> </li>
