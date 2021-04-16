@@ -507,14 +507,14 @@ Entendiendo como funciona el calculo, y como puedes hacerlo por ti mismo, ahora 
 
 
 ```python
-mvzbR = dfUSD['FNC.CR'].pct_change()
+FNCR = dfUSD['FNC.CR'].pct_change()
 ```
 
 
 ```python
-mvzbR.plot(figsize=(12,7))
+FNCR.plot(figsize=(12,7))
 plt.grid(alpha=0.5)
-plt.title('Performance MVZB')
+plt.title('Performance FNC')
 plt.show()
 ```
 
@@ -526,8 +526,8 @@ plt.show()
 
 
 ```python
-mvzbR['2021':'2021'].hist(bins=30, figsize=(7,5))
-plt.title('MVZB')
+FNCR['2021':'2021'].hist(bins=30, figsize=(7,5))
+plt.title('FNCB')
 plt.show()
 ```
 
@@ -548,9 +548,9 @@ Veamos si funciona.
 
 
 ```python
-mvzbR['2021':'2021'].plot(figsize=(12,7))
+FNCR['2021':'2021'].plot(figsize=(12,7))
 plt.grid(alpha=0.5)
-plt.title('Performance MVZB año 2021')
+plt.title('Performance FNC año 2021')
 plt.show()
 ```
 
