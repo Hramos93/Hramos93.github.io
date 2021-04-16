@@ -15,11 +15,8 @@ Por ahora me planteo tres guías de iniciación, serán muy sencillas, son los p
 
 Estás son las primeras guías que tengo en mente, algo que espero que tomen en cuenta es que utilizaré conceptos en inglés, por ejemplo no suelo decir "acciones", sino shares o equities, igual intentare traducir lo más que pueda, pero el material con el estudio es en inglés y no conozco todas las traducciones, igual en su defecto estaré explicando cada concepto.
 
-Espero las guías sean de mucha utilidad, estaré avisando por mis redes cuando haga publicaciones, así que los invito a seguirme, esto lo hago porque me gusta sin embargo hay un botón de PayPal para quien quiera invitarme un café ya que es la forma de yo saber que hay gente muy interesada en lo que escribo.
 
 Por último y más importante, cualquier comentario o opinión emitida aquí no es una recomendación ni sugerencia en cuanto a administrar su portafolio de inversión, cada quien es responsable de las desición que tome,sin más dilación comencemos.
-
-
 
 
 En esta oportunidad tomare información de acciones del mercado venezolano para explicar como normalizo los precios al precio $ dado la inestabilidad que hay con el VEF, de esta forma se facilitan muchos cálculos, sin embargo, lo que quiero decir es que esto funciona para cualquier mercado que se encuentre en yahoo finance.
