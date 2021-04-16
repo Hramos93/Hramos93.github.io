@@ -484,8 +484,8 @@ Para resolver este problema de periodos python tiene la función [shift()](https
 
 
 ```python
-mvzbR = dfUSD['FNC.CR']/dfUSD['FNC.CR'].shift(1) -1
-mvzbR.head()
+FNCR = dfUSD['FNC.CR']/dfUSD['FNC.CR'].shift(1) -1
+FNCR.head()
 ```
 
 
@@ -522,20 +522,18 @@ plt.show()
     
 ![jpg](/img/posts/market/04.png)
     
-
+Esta figura nos muestra cosas muy interesante como por ejemplo cerca a septiembre del 2018 hubo una caida basta fuerte casí del 100% del precio, curiosamente en agosto del 2018 ocurrio una reconversión monetaria en Venezuela, podemos ver como el precio comienza  a tomar ajustes y como comienza a ofrecer retornos entre +- 25%, pero para ver el rendimiento de una share es preferible usar un histograma, veamos el rendimiento de esta forma. 
 
 
 ```python
 FNCR['2021':'2021'].hist(bins=30, figsize=(7,5))
-plt.title('FNCB')
+plt.title('performance distribution FNCB')
 plt.show()
 ```
-
-
-    
+   
 ![jpg](/img/posts/market/2.png)
     
-
+Con un histograma podemos ver como se distribuye el rendimiento de una share, por ejemplo vemos que esta para la fecha 2018-2021 ha tenido retornos negativos y positivos algo parecidos, sin embargo los negativos ocupan mayor frecuencia, además vemos que aunque con poca probabilidades se pueden obtener un rendimiento de hasta el 20% pero igual manera se puede tener perdidas de casi el 20%.
 
 Por último quiero que miremos algo muy interesante, y es el indexado que seleccionamos al comienzo, esto también será mucha más utilidad más adelante cuando necesitemos comparar $$t$$ con $${t-n}$$, no profundizare en eso ahora, simplemente quiero mostrar cómo con el índice podemos elegir los periodos de estudio, es algo muy sencillo,tenemos que seleccionar el periodo que queremos evaluar como se muestra en el  siguiente código.
 
