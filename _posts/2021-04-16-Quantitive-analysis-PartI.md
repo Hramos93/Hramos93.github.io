@@ -520,7 +520,7 @@ plt.show()
 
 
     
-![jpg](/img/posts/market/2.png)
+![jpg](/img/posts/market/04.png)
     
 
 
@@ -533,7 +533,7 @@ plt.show()
 
 
     
-![jpg](/img/posts/market/3.png)
+![jpg](/img/posts/market/2.png)
     
 
 
@@ -556,7 +556,7 @@ plt.show()
 
 
     
-![png](/img/posts/market/04.png)
+![png](/img/posts/market/3.png)
     
 
 
