@@ -13,13 +13,13 @@ Por ahora me planteo hacer tres guías de iniciación, serán muy sencillas, son
 - Herramientas básicas estadísticas (Desviación, Normalidad, skewness, Kurtosis y más)
 - Introducción a la Optimización de Portafolio
 
-Estás son las primeras guías que tengo en mente, algo que espero que tomen en cuenta es que utilizaré conceptos en inglés, por ejemplo no suelo decir "acciones", sino shares o equities, igual intentare traducir lo más que pueda, pero el material con el estudio es en inglés y no conozco todas las traducciones, igual en su defecto estaré explicando cada concepto.
+Estás son las primeras guías que tengo en mente, algo que espero que tomen en cuenta es que utilizaré conceptos en inglés, por ejemplo no suelo decir "acciones", sino shares o equities, igual intentare traducir lo más que pueda, pero el material con el que estudio es en inglés y no conozco todas las traducciones, igual en su defecto estaré explicando cada concepto.
 
 
 Por último y más importante, cualquier comentario o opinión emitida aquí no es una recomendación ni sugerencia en cuanto a administrar su portafolio de inversión, cada quien es responsable de las desición que tome,sin más dilación comencemos.
 
 
-Inciemos extrayendo data de algunas shares  del mercado venezolano, esto para explicar como normalizo los precios al precio $ dado la inestabilidad que hay con el Bs actualmente, esto  facilitaran muchos cálculos si tienes intención de participar en el mercado venezolano, sin embargo esto funciona para cualquier mercado que se encuentre en yahoo finance.
+Inciemos extrayendo data de algunas shares  del mercado venezolano, esto para explicar como normalizo los precios al precio USD$ dado la inestabilidad que hay con el Bs actualmente, esto  facilitara los cálculos si tienes intención de participar en el mercado venezolano, sin embargo funciona para cualquier mercado que se encuentre en yahoo finance.
 
 Para extraer la data del mercado venezolano, se hará uso de la API de yahoo finance donde se encuentran registro de los precios históricos y actuales de cada de una de las acciones con las que se quiera comerciar,por otro lado, a la fecha de hoy venezuela sufre un periodo de crisis economica que mantiene una inestabilidad en la moneda nacional,lo cual dificulta los cálculos a nivel histórico dado a la variación de precios, es decir, el precio hace dos años dista mucho del precio actual debido a la inflación.
 Para resolver problema anterior se realizará un ajuste del precio en Bs al precio del USD$ , para conseguir historico cambiario del par USD/VEF, descargar el csv desde el 2018 [USD/VEF](https://www.investing.com/currencies/usd-vef-historical-data).
