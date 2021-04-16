@@ -478,7 +478,7 @@ dfUSD.iloc[1:]/dfUSD.iloc[:-1].values - 1
 
 ```
 
-recuerda necesitas forzar un lag en la serie de tiempo porque trabaja con un tiempo adelante, y de esa forma aunque el calculo esta bien planteado acorde al punto de referencia(tiempo) no estara bien ordenado, te invito a probar como ejercicio.
+Recuerda necesitas forzar un lag en la serie de tiempo porque trabajas con un tiempo adelante, y de esa forma aunque el cálculo esta bien planteado acorde al punto de referencia(tiempo) no estará bien ordenado, te invito a probar como ejercicio.
 
 Para resolver este problema de periodos python tiene la función [shift()](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.shift.html), esta función permite mover un paso adelante los registros, intetemos!.
 
