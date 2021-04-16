@@ -460,7 +460,7 @@ dfUSD.describe()
 
 
 El primer concepto que revisaremos será el performance de la shares, en español se refiere al rendimiento o retorno.
-Recordemos que el retorno para un tiempo $$t$$ a un tiempo ${t+1}$ esta dado por :
+Recordemos que el retorno para un tiempo $$t$$ a un tiempo $${t+1}$$ esta dado por :
 
 $$ R_{t,t+1} = \frac{P_{t+1}-P_{t}}{P_{t}}$$
 
