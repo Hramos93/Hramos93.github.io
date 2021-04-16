@@ -460,13 +460,13 @@ dfUSD.describe()
 
 
 El primer concepto que revisaremos será el performance de la shares, en español se refiere al rendimiento o retorno.
-Recordemos que el retorno para un tiempo $t$ a un tiempo ${t-1}$ esta dado por :
+Recordemos que el retorno para un tiempo $$t$$ a un tiempo ${t+1}$ esta dado por :
 
-$$ R_{t,t+1} = \frac{P_{t-1}-P_{t}}{P_{t}}$$
+$$ R_{t,t+1} = \frac{P_{t+1}-P_{t}}{P_{t}}$$
 
 una alternativa muy común que veo en excel es usar esta.
 
-$$ R_{t,t+1} = \frac{P_{t-1}}{P_{t}} - 1$$
+$$ R_{t,t+1} = \frac{P_{t+1}}{P_{t}} - 1$$
 
 Secillamente le estamos pidiendo que compare el precio con un precio anterior y nos muestre el resultado en terminos de porcentaje.
 
