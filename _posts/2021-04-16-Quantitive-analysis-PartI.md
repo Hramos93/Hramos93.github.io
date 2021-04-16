@@ -537,7 +537,7 @@ plt.show()
     
 
 
-Por último quiero que miremos algo muy interesante, y es el indexado que seleccionamos al comienzo, esto también será mucha más utilidad más adelante cuando necesitemos comparar $t$ con ${t-n}$, no profundizare en eso ahora, simplemente quiero mostrar cómo con el índice podemos elegir los periodos de estudio, es algo muy sencillo,tenemos que seleccionar el periodo que queremos evaluar como se muestra en el  siguiente código.
+Por último quiero que miremos algo muy interesante, y es el indexado que seleccionamos al comienzo, esto también será mucha más utilidad más adelante cuando necesitemos comparar $$t$$ con $${t-n}$$, no profundizare en eso ahora, simplemente quiero mostrar cómo con el índice podemos elegir los periodos de estudio, es algo muy sencillo,tenemos que seleccionar el periodo que queremos evaluar como se muestra en el  siguiente código.
 
 
 ```python
