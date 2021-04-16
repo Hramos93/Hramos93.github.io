@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Mercado Financiero en Python"
-subtitle: "Introducción al análisis financiero con Python"
+title: "Introducción al análisis financiero con Python"
+subtitle: "Obteniendo Data desde yahoo Finance"
 background: '/img/posts/market/01.jpg'
 ---
 
-Entre algunos análisis que miro frecuentemente están los análisis de mercado, específicamente quantitive analysis(QA), es una rama muy amigable del análisis de mercado que creo que todos deberían conocer,  aporta un plus a la gestión tanto en el mercado financiero como en la vida diaria , por tal razón he decido realizar una series de guías de cómo utilizar e interpretar estás las herramientas estadísticas que tenemos a disposición para medir, modelar y comprender el comportamiento del mercado. 
-Por ahora me planteo tres guías de iniciación, serán muy sencillas, son los primeros pasos que se realizan para los estudios de mercado.
+Entre algunos análisis que miro frecuentemente están los análisis de mercado, específicamente quantitive analysis(QA), es una rama muy amigable del análisis de mercado,dado que me gusta programar  he decido realizar una series de guías de cómo utilizar e interpretar estás las herramientas estadísticas que tenemos a disposición para medir, modelar y comprender el comportamiento del mercado a través de programación en python. 
+Por ahora me planteo hacer tres guías de iniciación, serán muy sencillas, son los primeros pasos que se realizan para los estudios de mercado.
 
 
 - Obteniendo Data desde yahoo Finance 
@@ -19,10 +19,10 @@ Estás son las primeras guías que tengo en mente, algo que espero que tomen en 
 Por último y más importante, cualquier comentario o opinión emitida aquí no es una recomendación ni sugerencia en cuanto a administrar su portafolio de inversión, cada quien es responsable de las desición que tome,sin más dilación comencemos.
 
 
-En esta oportunidad tomare información de acciones del mercado venezolano para explicar como normalizo los precios al precio $ dado la inestabilidad que hay con el VEF, de esta forma se facilitan muchos cálculos, sin embargo, lo que quiero decir es que esto funciona para cualquier mercado que se encuentre en yahoo finance.
+Inciemos extrayendo data de algunas shares  del mercado venezolano, esto para explicar como normalizo los precios al precio $ dado la inestabilidad que hay con el Bs actualmente, esto  facilitaran muchos cálculos si tienes intención de participar en el mercado venezolano, sin embargo esto funciona para cualquier mercado que se encuentre en yahoo finance.
 
-Para obtener información de las principales acciones ofertas en el mercado venezolano, se hara uso de la API de yahoo finance donde se encuentran registro de los precios historicos y actuales de cada de una de las acciones con las que se quiera comerciar,por otro lado, a la fecha de hoy venezuela sufre un periodo de crisis economica que mantiene una inestabilidad en la moneda nacional,lo cual no solo dificulta los calculos a nivel historico, es decir, hacer un analisis con data del 2018 hasta hoy en día puede sercasi imposible por la diferencia en el valor de la moneda.
-Para el problema anterior estarizaremos y facilitar los calculos, estandarizamos los precios de los activos a precio de $, para conseguir historico cambiario del par USD/VEF, descargar el csv desde el 2018 [USD/VEF](https://www.investing.com/currencies/usd-vef-historical-data).
+Para extraer la data del mercado venezolano, se hará uso de la API de yahoo finance donde se encuentran registro de los precios históricos y actuales de cada de una de las acciones con las que se quiera comerciar,por otro lado, a la fecha de hoy venezuela sufre un periodo de crisis economica que mantiene una inestabilidad en la moneda nacional,lo cual dificulta los cálculos a nivel histórico dado a la variación de precios, es decir, el precio hace dos años dista mucho del precio actual debido a la inflación.
+Para resolver problema anterior se realizará un ajuste del precio en Bs al precio del USD$ , para conseguir historico cambiario del par USD/VEF, descargar el csv desde el 2018 [USD/VEF](https://www.investing.com/currencies/usd-vef-historical-data).
 
 recuerda instalar las siguientes librerias
 
@@ -258,8 +258,8 @@ Ahora comencemos con lo bueno, haremos lectura de unas pocas acciones para enten
 - 'CIE.CR' 
 - 'FNC.CR'
 
-primero creemos un DataFrame vacio, basicamente lo que haremos se empaquetar todos los datos allí, solo ten presente eso.
-Haremos lectura con de nuestras shares con la funcion Ticker, esta se encuentra dentro de la liberia de yahoo finance, esta funcion prepara los datos para ser leidos es como "oye prepara la shares de BNC que va ser leida", 
+Primero creemos un DataFrame vacio, basicamente lo que haremos se empaquetar todos los datos allí, solo ten presente eso.
+Haremos lectura con de nuestras shares con la funcion Ticker, esta se encuentra dentro de la liberia de yahoo finance, esta funcion prepara los datos para ser leidos es como "oye prepara la share X que va ser leida", 
 una vez preparada hacemos lectura deacuerdo al periodo que queremos, por lo general mientras más datos tengas mejor, pero por ahora igual que con el par VEF/USD, aqui necesitamo solo el precio, y tomaremos solo 3 años de datos.
 
 Esto funciona para un shares, pero ahora queremos varios por lo requeriremos hacer el recorrido varias veces,
@@ -360,7 +360,7 @@ df.head()
 
 
 
-Ahora que tenemos los datos del precio del dolar y el precio de nuestras shares, uniremos todo para estandarizar los precios de las shares, esto simplemente es una idea de facilitar los calculos debido a la hiperinflación en la que se encuentra la economia en Venezuela lo que ocasiona una desvalorización de la moneda Bs y complica los calculos debido a la diferencia de precios.
+Ahora que tenemos los datos del precio del dolar y el precio de nuestras shares, uniremos todo para ajustar los precios de las shares.
 
 Luego de unir los datos, limpearemos un poco nuestro jardin, el formato de bs/USD$ son interpreados como string, asi que modificaremos eso para poder trabajar con el valor, luego estandarizamos, divimos el precio de nuestra accion al precio del dolar del mismo día.
 Por último, tenemos una diferencia en las fechas entre los dataframe, la fecha de VEF/USD esta desde el enero 2018, mientra que alguna de nuestras shares solo tenemos data a partir de abril, esas diferencia entre fechas es rellenada con valores NaN, estos valores indican la ausencia de datos, removeremos todas esas filas ya que no presetan información de los precios.
@@ -460,13 +460,13 @@ dfUSD.describe()
 
 
 El primer concepto que revisaremos será el performance de la shares, en español se refiere al rendimiento o retorno.
-Recordemos que el retorno para un tiempo $t$ a un tiempo ${t-1}$ esta dato por :
+Recordemos que el retorno para un tiempo $t$ a un tiempo ${t-1}$ esta dado por :
 
-$$ R_{t,t+1} = \frac{P_{t+1}-P_{t}}{P_{t}}$$
+$$ R_{t,t+1} = \frac{P_{t-1}-P_{t}}{P_{t}}$$
 
 una alternativa muy común que veo en excel es usar esta.
 
-$$ R_{t,t+1} = \frac{P_{t+1}}{P_{t}} - 1$$
+$$ R_{t,t+1} = \frac{P_{t-1}}{P_{t}} - 1$$
 
 Secillamente le estamos pidiendo que compare el precio con un precio anterior y nos muestre el resultado en terminos de porcentaje.
 
