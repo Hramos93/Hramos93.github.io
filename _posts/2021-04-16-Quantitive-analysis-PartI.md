@@ -514,7 +514,7 @@ FNCR = dfUSD['FNC.CR'].pct_change()
 ```python
 FNCR.plot(figsize=(12,7))
 plt.grid(alpha=0.5)
-plt.title('Performance FNC')
+plt.title('Performance FNC 2018-2021')
 plt.show()
 ```
 
@@ -527,7 +527,7 @@ Esta figura nos muestra cosas muy interesante como por ejemplo cerca a septiembr
 
 ```python
 FNCR['2021':'2021'].hist(bins=30, figsize=(7,5))
-plt.title('performance distribution FNCB')
+plt.title('performance distribution FNC')
 plt.show()
 ```
    
