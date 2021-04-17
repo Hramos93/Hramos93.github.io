@@ -484,8 +484,8 @@ Para resolver este problema de periodos python tiene la función [shift()](https
 
 
 ```python
-FNCR = dfUSD['FNC.CR']/dfUSD['FNC.CR'].shift(1) -1
-FNCR.head()
+FNC = dfUSD['FNC.CR']/dfUSD['FNC.CR'].shift(1) -1
+FNC.head()
 ```
 
 
@@ -501,7 +501,7 @@ FNCR.head()
 
 
 
-Entendiendo como funciona el calculo, y como puedes hacerlo por ti mismo, ahora te dare el camino fácil, es la función de python [ptc_change()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.pct_change.html)
+Entendiendo como funciona el cálculo, y como puedes hacerlo por ti mismo, ahora te dare el camino fácil, es la función de python [ptc_change()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.pct_change.html)
 
 <cite>"Percentage change between the current and a prior element".</cite> esta es la definición que ofrece la documentación, justo lo que queremos, veamos si funciona.
 
