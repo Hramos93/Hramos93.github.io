@@ -1,28 +1,24 @@
----
-layout: post
-title: "Introducción al análisis financiero con Python"
-subtitle: "Obteniendo Data desde yahoo Finance"
-background: '/img/posts/market/01.jpg'
----
-
-Entre algunos análisis que miro frecuentemente están los análisis de mercado, específicamente quantitive analysis(QA), es una rama muy amigable del análisis de mercado,dado que me gusta programar  he decido realizar una series de guías de cómo utilizar e interpretar estás las herramientas estadísticas que tenemos a disposición para medir, modelar y comprender el comportamiento del mercado a través de programación en python. 
-Por ahora me planteo hacer tres guías de iniciación, serán muy sencillas, son los primeros pasos que se realizan para los estudios de mercado.
+Entre algunos análisis que miro frecuentemente están los análisis de mercado, específicamente quantitive analysis(QA), es una rama muy amigable del análisis de mercado que creo que todos deberían conocer,  aporta un plus a la gestión tanto en el mercado financiero como en la vida diaria , por tal razón he decido realizar una series de guías de cómo utilizar e interpretar estás las herramientas estadísticas que tenemos a disposición para medir, modelar y comprender el comportamiento del mercado. 
+Por ahora me planteo tres guías de iniciación, serán muy sencillas, son los primeros pasos que se realizan para los estudios de mercado.
 
 
 - Obteniendo Data desde yahoo Finance 
 - Herramientas básicas estadísticas (Desviación, Normalidad, skewness, Kurtosis y más)
 - Introducción a la Optimización de Portafolio
 
-Estás son las primeras guías que tengo en mente, algo que espero que tomen en cuenta es que utilizaré conceptos en inglés, por ejemplo no suelo decir "acciones", sino shares o equities, igual intentare traducir lo más que pueda, pero el material con el que estudio es en inglés y no conozco todas las traducciones, igual en su defecto estaré explicando cada concepto.
+Estás son las primeras guías que tengo en mente, algo que espero que tomen en cuenta es que utilizaré conceptos en inglés, por ejemplo no suelo decir "acciones", sino shares o equities, igual intentare traducir lo más que pueda, pero el material con el estudio es en inglés y no conozco todas las traducciones, igual en su defecto estaré explicando cada concepto.
 
+Espero las guías sean de mucha utilidad, estaré avisando por mis redes cuando haga publicaciones, así que los invito a seguirme, esto lo hago porque me gusta sin embargo hay un botón de PayPal para quien quiera invitarme un café ya que es la forma de yo saber que hay gente muy interesada en lo que escribo.
 
 Por último y más importante, cualquier comentario o opinión emitida aquí no es una recomendación ni sugerencia en cuanto a administrar su portafolio de inversión, cada quien es responsable de las desición que tome,sin más dilación comencemos.
 
 
-Inciemos extrayendo data de algunas shares  del mercado venezolano, esto para explicar como normalizo los precios al precio USD$ dado la inestabilidad que hay con el Bs actualmente, esto  facilitara los cálculos si tienes intención de participar en el mercado venezolano, sin embargo funciona para cualquier mercado que se encuentre en yahoo finance.
 
-Para extraer la data del mercado venezolano, se hará uso de la API de yahoo finance donde se encuentran registro de los precios históricos y actuales de cada de una de las acciones con las que se quiera comerciar,por otro lado, a la fecha de hoy venezuela sufre un periodo de crisis economica que mantiene una inestabilidad en la moneda nacional,lo cual dificulta los cálculos a nivel histórico dado a la variación de precios, es decir, el precio hace dos años dista mucho del precio actual debido a la inflación.
-Para resolver problema anterior se realizará un ajuste del precio en Bs al precio del USD$ , para conseguir historico cambiario del par USD/VEF, descargar el csv desde el 2018 [USD/VEF](https://www.investing.com/currencies/usd-vef-historical-data).
+
+En esta oportunidad tomare información de acciones del mercado venezolano para explicar como normalizo los precios al precio $ dado la inestabilidad que hay con el VEF, de esta forma se facilitan muchos cálculos, sin embargo, lo que quiero decir es que esto funciona para cualquier mercado que se encuentre en yahoo finance.
+
+Para obtener información de las principales acciones ofertas en el mercado venezolano, se hara uso de la API de yahoo finance donde se encuentran registro de los precios historicos y actuales de cada de una de las acciones con las que se quiera comerciar,por otro lado, a la fecha de hoy venezuela sufre un periodo de crisis economica que mantiene una inestabilidad en la moneda nacional,lo cual no solo dificulta los calculos a nivel historico, es decir, hacer un analisis con data del 2018 hasta hoy en día puede sercasi imposible por la diferencia en el valor de la moneda.
+Para el problema anterior estarizaremos y facilitar los calculos, estandarizamos los precios de los activos a precio de $, para conseguir historico cambiario del par USD/VEF, descargar el csv desde el 2018 [USD/VEF](https://www.investing.com/currencies/usd-vef-historical-data).
 
 recuerda instalar las siguientes librerias
 
@@ -258,8 +254,8 @@ Ahora comencemos con lo bueno, haremos lectura de unas pocas acciones para enten
 - 'CIE.CR' 
 - 'FNC.CR'
 
-Primero creemos un DataFrame vacio, basicamente lo que haremos se empaquetar todos los datos allí, solo ten presente eso.
-Haremos lectura con de nuestras shares con la funcion Ticker, esta se encuentra dentro de la liberia de yahoo finance, esta funcion prepara los datos para ser leidos es como "oye prepara la share X que va ser leida", 
+primero creemos un DataFrame vacio, basicamente lo que haremos se empaquetar todos los datos allí, solo ten presente eso.
+Haremos lectura con de nuestras shares con la funcion Ticker, esta se encuentra dentro de la liberia de yahoo finance, esta funcion prepara los datos para ser leidos es como "oye prepara la shares de BNC que va ser leida", 
 una vez preparada hacemos lectura deacuerdo al periodo que queremos, por lo general mientras más datos tengas mejor, pero por ahora igual que con el par VEF/USD, aqui necesitamo solo el precio, y tomaremos solo 3 años de datos.
 
 Esto funciona para un shares, pero ahora queremos varios por lo requeriremos hacer el recorrido varias veces,
@@ -360,7 +356,7 @@ df.head()
 
 
 
-Ahora que tenemos los datos del precio del dolar y el precio de nuestras shares, uniremos todo para ajustar los precios de las shares.
+Ahora que tenemos los datos del precio del dolar y el precio de nuestras shares, uniremos todo para estandarizar los precios de las shares, esto simplemente es una idea de facilitar los calculos debido a la hiperinflación en la que se encuentra la economia en Venezuela lo que ocasiona una desvalorización de la moneda Bs y complica los calculos debido a la diferencia de precios.
 
 Luego de unir los datos, limpearemos un poco nuestro jardin, el formato de bs/USD$ son interpreados como string, asi que modificaremos eso para poder trabajar con el valor, luego estandarizamos, divimos el precio de nuestra accion al precio del dolar del mismo día.
 Por último, tenemos una diferencia en las fechas entre los dataframe, la fecha de VEF/USD esta desde el enero 2018, mientra que alguna de nuestras shares solo tenemos data a partir de abril, esas diferencia entre fechas es rellenada con valores NaN, estos valores indican la ausencia de datos, removeremos todas esas filas ya que no presetan información de los precios.
@@ -460,7 +456,7 @@ dfUSD.describe()
 
 
 El primer concepto que revisaremos será el performance de la shares, en español se refiere al rendimiento o retorno.
-Recordemos que el retorno para un tiempo $$t$$ a un tiempo $${t+1}$$ esta dado por :
+Recordemos que el retorno para un tiempo $t$ a un tiempo ${t-1}$ esta dato por :
 
 $$ R_{t,t+1} = \frac{P_{t+1}-P_{t}}{P_{t}}$$
 
@@ -478,14 +474,14 @@ dfUSD.iloc[1:]/dfUSD.iloc[:-1].values - 1
 
 ```
 
-Recuerda necesitas forzar un lag en la serie de tiempo porque trabajas con un tiempo adelante, y de esa forma aunque el cálculo esta bien planteado acorde al punto de referencia(tiempo) no estará bien ordenado, te invito a probar como ejercicio.
+recuerda necesitas forzar un lag en la serie de tiempo porque trabaja con un tiempo adelante, y de esa forma aunque el calculo esta bien planteado acorde al punto de referencia(tiempo) no estara bien ordenado, te invito a probar como ejercicio.
 
 Para resolver este problema de periodos python tiene la función [shift()](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.shift.html), esta función permite mover un paso adelante los registros, intetemos!.
 
 
 ```python
-FNCR = dfUSD['FNC.CR']/dfUSD['FNC.CR'].shift(1) -1
-FNCR.head()
+FNC = dfUSD['FNC.CR']/dfUSD['FNC.CR'].shift(1) -1
+FNC.head()
 ```
 
 
@@ -522,7 +518,10 @@ FNCR.head()
     2018-04-20   -0.110995
     Name: FNC.CR, dtype: float64
 
+
+
 Perfecto! tenemos exactamente el mismo resultado que plantea la formula, podemos confiar en esta declaración, ahora veamos como podemos representar esos datos.
+
 
 
 ```python
@@ -534,22 +533,24 @@ plt.show()
 
 
     
-![jpg](/img/posts/market/04.png)
+![png](output_20_0.png)
     
-Esta figura nos muestra cosas muy interesante como por ejemplo cerca a septiembre del 2018 hubo una caida basta fuerte casí del 100% del precio, curiosamente en agosto del 2018 ocurrio una reconversión monetaria en Venezuela, también podemos ver como el precio comienza  a tomar ajustes y como comienza a ofrecer retornos  entre +- 25%, pero para ver el rendimiento de una share es preferible usar un histograma, veamos el rendimiento de esta forma. 
+
 
 
 ```python
 FNCR['2021':'2021'].hist(bins=30, figsize=(7,5))
-plt.title('performance distribution FNC')
+plt.title('Performance distirbution FNC')
 plt.show()
 ```
-   
-![jpg](/img/posts/market/2.png)
-    
-Ahorap odemos ver que para la fecha 2018-2021 ha tenido retornos negativos y positivos en frecuencias similares, sin embargo los negativos ocupan un porción relativamente mayor, además vemos que aunque con poca probabilidades se pueden obtener un rendimiento de hasta el 20% pero igual manera se puede tener perdidas de casi el 20%.
 
-Por último quiero que miremos algo muy interesante, y es el indexado que seleccionamos al comienzo, esto también será mucha más utilidad más adelante cuando necesitemos comparar $$t$$ con $${t-n}$$, no profundizare en eso ahora, simplemente quiero mostrar cómo con el índice podemos elegir los periodos de estudio, es algo muy sencillo,tenemos que seleccionar el periodo que queremos evaluar como se muestra en el  siguiente código.
+
+    
+![png](output_21_0.png)
+    
+
+
+Por último quiero que miremos algo muy interesante, y es el indexado que seleccionamos al comienzo, esto también será mucha más utilidad más adelante cuando necesitemos comparar $t$ con ${t-n}$, no profundizare en eso ahora, simplemente quiero mostrar cómo con el índice podemos elegir los periodos de estudio, es algo muy sencillo,tenemos que seleccionar el periodo que queremos evaluar como se muestra en el  siguiente código.
 
 
 ```python
@@ -568,7 +569,7 @@ plt.show()
 
 
     
-![png](/img/posts/market/3.png)
+![png](output_23_0.png)
     
 
 
