@@ -16,7 +16,7 @@ La mision aquí es simple, Contar,Contar es uno de los problemas con los que te 
 Imaginemos la siguiente tabla:
 
 
-![](/img/posts/count_sql/tabla.png)
+![](/img/posts/count_sql/tabla.PNG)
 
 Formular el problema es lo primero que necesitamos, para formular debemos comprender, y desarrollar un método o pipeline de resolución.
 
@@ -49,7 +49,7 @@ ORDER BY parent_user_id ASC
 
 Podemos observar que hay usuarios  que en una primera entrada(parent_user_id)  comparten la identificación en la tabla y hay otros usuarios que no, estos ids que no son iguales serán excluidos ya que se encuentran igualmente en la tabla y equivalen a los mismos usuarios solo que para un momento, o desde otra tabla fueron identificados de forma distinta.
 
-![](/img/posts/count_sql/review.png)
+![](/img/posts/count_sql/review.PNG)
 
 Además de eso debemos tener solo en cuenta filas donde la columna delete_at sea Null, es decir, si en la fila delete_at no hay una fecha(día el cual fue eliminado) quiere decir que los usuarios existen o no han sido eliminados, igualmente si en la columna parent_user_id es null, quiere decir que ese registro posee un único id del cual podemos confiar.
 
@@ -70,7 +70,7 @@ GROUP BY
     date(created_at)
 ~~~~
 
-![](/img/posts/count_sql/figure1.png)
+![](/img/posts/count_sql/figure1.PNG)
 
 
 Esto nos da una idea de cuantos clientes se agregan por día, pero no está tomando en cuenta los clientes eliminados ese día,
@@ -118,7 +118,7 @@ SELECT
 
 ~~~~
 
-![](/img/posts/count_sql/figure2.png)
+![](/img/posts/count_sql/figure2.PNG)
 
 Ok, ahora esto va teniendo más sentido.
 
