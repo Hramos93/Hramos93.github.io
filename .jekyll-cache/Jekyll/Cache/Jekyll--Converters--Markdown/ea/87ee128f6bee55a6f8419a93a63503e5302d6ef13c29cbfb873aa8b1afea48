@@ -1,0 +1,169 @@
+I"�5<h2 id="contando-en-sql">Contando en SQL</h2>
+
+<p>Pensemos un segundo que tenemos un tabla de clientes, nueva o de la cuál unimos con otra sucursal ect, y  el CEO o los directivos de una empresa necesitan saber cuántos clientes nuevos se han registrado en el negocio</p>
+
+<p>La mision aquí es simple, Contar,Contar es uno de los problemas con los que te enfrentas típicamente en análisis de datos, probablemente suene sencillo, contar es una de las primeras habilidades que aprendemos desde pequeños, sin embargo la cuestión no es que tengas la habilidad sino como transformas la habilidad en conocimiento, es decir no basta con saber usar una herramienta sino en cómo te planteas un problema para poder resolver con la herramienta.</p>
+
+<p>Imaginemos la siguiente tabla:</p>
+
+<p><img src="/img/posts/count_sql/tabla.png" alt="" /></p>
+
+<p>Formular el problema es lo primero que necesitamos, para formular debemos comprender, y desarrollar un método o pipeline de resolución.</p>
+
+<p>Queremos saber cuántos usuarios nuevos se han agregado cada día.
+Tenemos las columnas</p>
+<ul>
+  <li>create_at: corresponde a la fecha en la que el usuario fue agregado</li>
+  <li>deleted_at: que corresponde la fecha de cuando el usuario fue borrado</li>
+  <li>id: identificador unico</li>
+  <li>merged_at: se refiere a usuarios que fueron añadidos desde otra base de datos</li>
+  <li>parent_user_id : el id correspondiente a la tabla donde se encontraba el usuario antes</li>
+</ul>
+
+<p>Qué hacer:</p>
+<ul>
+  <li>Necesitamos saber cuántos clientes hay registrados por día.</li>
+  <li>Conocer quienes han sido eliminados por día</li>
+  <li>Determinar que usuarios se refieren a un mismo usuario con otra id por ejenplo  que proveniente desde otra DB o tabla por día.</li>
+  <li>Substraer los usuarios eliminados (clientes que ya no pertenecen a la BD) y los usuarios con el mismo id.</li>
+</ul>
+
+<p>Veamos primero qué relación hay entre las columnas de identificación:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
+<span class="n">id</span> 
+<span class="p">,</span><span class="n">parent_user_id</span><span class="p">,</span> 
+<span class="n">merged_at</span><span class="p">,</span>
+<span class="k">FROM</span> <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span> 
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">parent_user_id</span> <span class="k">ASC</span>
+</code></pre></div></div>
+
+<p>Podemos observar que hay usuarios  que en una primera entrada(parent_user_id)  comparten la identificación en la nueva tabla y hay otros usuarios que no, estos ids que no son iguales serán excluidos ya que se encuentran igualmente en la tabla y equivalen a los mismos usuarios.</p>
+
+<p><img src="/img/posts/count_sql/review.png" alt="" /></p>
+
+<p>Además de eso podemos tener solo en cuenta filas donde la columna delete_at sea Null, es decir, si en la fila delete_at no hay valores quiere decir que los usuarios existen o no han sido eliminados, igualmente si en la columna parent_user_id es null, quiere decir que ese registro posee un único id del cual podemos confiar.</p>
+
+<p>Veamos cómo podemos escribir esto en todo esto en SQL</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> 
+    <span class="nb">date</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="k">AS</span> <span class="k">day</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">users</span>
+<span class="k">FROM</span> 
+    <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span>
+<span class="k">WHERE</span> 
+    <span class="n">deleted_at</span> <span class="k">IS</span> <span class="k">NULL</span>
+    <span class="k">AND</span>
+        <span class="p">(</span><span class="n">id</span> <span class="o">&lt;&gt;</span> <span class="n">parent_user_id</span> <span class="k">OR</span> <span class="n">parent_user_id</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">)</span>
+<span class="k">GROUP</span> <span class="k">BY</span> 
+    <span class="nb">date</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/img/posts/count_sql/figure1.png" alt="" /></p>
+
+<p>Esto nos da una idea de cuantos clientes se agregan por día, pero no está tomando en cuenta los clientes eliminados ese día,
+para tomar en cuenta los clientes eliminados deberemos seleccionar los registros con valores presentes en la columna deleted_at, contarlos y agruparlos, todo esto teniendo en cuenta el total de clientes que tenemos por día, para luego restarlo.</p>
+
+<p>Una explicación sencilla:</p>
+<h3 id="query">Query</h3>
+<ul>
+  <li>Columna con clientes totales por día</li>
+  <li>Columna con clientes borrados por dia
+    <h4 id="subqueries">Subqueries</h4>
+    <ul>
+      <li>Total de clientes agregados por día</li>
+      <li>Total de clientes eliminados por día</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Y hacer una substracción.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> 
+<span class="k">new</span><span class="p">.</span><span class="k">day</span><span class="p">,</span> 
+<span class="k">new</span><span class="p">.</span><span class="n">new_users_added</span><span class="p">,</span>
+<span class="n">deleted</span><span class="p">.</span><span class="n">deleted_users</span> <span class="k">AS</span> <span class="n">deleted_users</span>
+<span class="k">FROM</span><span class="p">(</span>
+<span class="c1">-- TOTAL USERS</span>
+<span class="k">SELECT</span> 
+  <span class="nb">date</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="k">AS</span> <span class="k">day</span><span class="p">,</span>
+  <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">new_users_added</span>
+  <span class="k">FROM</span> 
+  <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> 
+  <span class="nb">date</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span>
+  <span class="p">)</span> <span class="k">new</span> 
+  <span class="c1">-- DELETE USERS</span>
+  <span class="k">LEFT</span> <span class="k">JOIN</span> 
+    <span class="p">(</span><span class="k">SELECT</span> 
+    <span class="nb">date</span><span class="p">(</span><span class="n">deleted_at</span><span class="p">)</span> <span class="k">AS</span> <span class="k">day</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">deleted_users</span> 
+    <span class="k">FROM</span> 
+    <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span> 
+    <span class="k">WHERE</span> <span class="n">deleted_at</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> 
+    <span class="k">GROUP</span> <span class="k">BY</span> 
+    <span class="nb">date</span><span class="p">(</span><span class="n">deleted_at</span><span class="p">)</span>
+    <span class="p">)</span> <span class="n">deleted</span>
+  <span class="k">ON</span> <span class="n">deleted</span><span class="p">.</span><span class="k">day</span> <span class="o">=</span> <span class="k">new</span><span class="p">.</span><span class="k">day</span>
+
+</code></pre></div></div>
+
+<p><img src="/img/posts/count_sql/figure2.png" alt="" /></p>
+
+<p>Ok, ahora esto va teniendo más sentido.</p>
+
+<p>Ahora contemos  a los usuarios con distinta id pero que ya estan en la tabla</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> 
+<span class="k">new</span><span class="p">.</span><span class="k">day</span><span class="p">,</span> 
+<span class="k">new</span><span class="p">.</span><span class="n">new_users_added</span><span class="p">,</span>
+<span class="n">COALESCE</span><span class="p">(</span><span class="n">deleted</span><span class="p">.</span><span class="n">deleted_users</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">AS</span> <span class="n">deleted_users</span><span class="p">,</span>
+<span class="n">COALESCE</span><span class="p">(</span><span class="n">merged</span><span class="p">.</span><span class="n">merged_users</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">AS</span> <span class="n">merged_users</span><span class="p">,</span>
+<span class="p">(</span><span class="k">new</span><span class="p">.</span><span class="n">new_users_added</span> <span class="o">-</span> <span class="n">COALESCE</span><span class="p">(</span><span class="n">deleted</span><span class="p">.</span><span class="n">deleted_users</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">COALESCE</span><span class="p">(</span><span class="n">merged</span><span class="p">.</span><span class="n">merged_users</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span> <span class="k">AS</span> <span class="n">net_added_users</span>
+<span class="k">FROM</span><span class="p">(</span>
+<span class="k">SELECT</span> 
+  <span class="nb">date</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="k">AS</span> <span class="k">day</span><span class="p">,</span>
+  <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">new_users_added</span>
+  <span class="k">FROM</span> 
+  <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> 
+  <span class="nb">date</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span>
+  <span class="p">)</span> <span class="k">new</span> 
+  <span class="c1">-- DELETE USERS</span>
+  <span class="k">LEFT</span> <span class="k">JOIN</span> 
+    <span class="p">(</span><span class="k">SELECT</span> 
+    <span class="nb">date</span><span class="p">(</span><span class="n">deleted_at</span><span class="p">)</span> <span class="k">AS</span> <span class="k">day</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">deleted_users</span> 
+    <span class="k">FROM</span> 
+    <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span> 
+    <span class="k">WHERE</span> <span class="n">deleted_at</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> 
+    <span class="k">GROUP</span> <span class="k">BY</span> 
+    <span class="nb">date</span><span class="p">(</span><span class="n">deleted_at</span><span class="p">)</span>
+    <span class="p">)</span> <span class="n">deleted</span>
+  <span class="k">ON</span> <span class="n">deleted</span><span class="p">.</span><span class="k">day</span> <span class="o">=</span> <span class="k">new</span><span class="p">.</span><span class="k">day</span>
+  <span class="c1">-- MERGED USERS</span>
+  <span class="k">LEFT</span> <span class="k">JOIN</span> 
+  <span class="p">(</span><span class="k">SELECT</span> 
+  <span class="nb">date</span><span class="p">(</span><span class="n">merged_at</span><span class="p">)</span> <span class="k">AS</span> <span class="k">day</span><span class="p">,</span>
+  <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">merged_users</span>
+  <span class="k">FROM</span> <span class="n">dsv1069</span><span class="p">.</span><span class="n">users</span>
+  <span class="k">WHERE</span> 
+  <span class="n">id</span> <span class="o">&lt;&gt;</span> <span class="n">parent_user_id</span> 
+  <span class="k">AND</span> 
+  <span class="n">parent_user_id</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> 
+  <span class="k">GROUP</span> <span class="k">BY</span> 
+  <span class="nb">date</span><span class="p">(</span><span class="n">merged_at</span><span class="p">)</span>
+  <span class="p">)</span> <span class="n">merged</span>
+  <span class="k">ON</span> <span class="n">merged</span><span class="p">.</span><span class="k">day</span> <span class="o">=</span> <span class="k">new</span><span class="p">.</span><span class="k">day</span> 
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">new_users_added</span> <span class="k">DESC</span>
+</code></pre></div></div>
+
+<p><img src="/img/posts/count_sql/final_table.PNG" alt="" /></p>
+
+<p><img src="/img/posts/count_sql/graph_final.PNG" alt="" /></p>
+
+<p>Bueno, esto es todo, espero te hayas divertido y encontrado sentido al hecho de que contar no solo se trata de conocer las cantidades sino que con un poco de astucia puedes desarollar operaciones bastante divertidas, hasta pronto.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+:ET

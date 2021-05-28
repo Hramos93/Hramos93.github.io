@@ -1,7 +1,0 @@
-I"<h1 id="installing-packages">Installing Packages</h1>
-<p>for this tutorial, I´ll be using two packages</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("rvest")
-
-</code></pre></div></div>
-:ET
